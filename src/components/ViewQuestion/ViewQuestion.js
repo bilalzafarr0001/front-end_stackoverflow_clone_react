@@ -36,16 +36,20 @@ export default function ViewQuestion() {
   }
 
   return (
-    <div class="d-flex justify-content-start">
+    <div class="container-fluid d-flex justify-content-start">
       <Sidebar name="home" />
-      <div style={{ marginLeft: "80px", marginTop: "40px", width: "55vw" }}>
+      <div
+        style={{
+          marginLeft: "8%",
+          marginTop: "1rem",
+          width: "55%",
+        }}
+      >
         <div class="d-flex justify-content-between">
-          <p style={{ fontSize: "21px" }}>
-            {" "}
-            ewfwefwefewfwewefwewwfwfweffwe wfwefwefwefwefwefwfwff wefc wcw
+          <p class="text-wrap">
+            ewfwefwe fewfwewefwewwfwfweffwe wfwefwefwefwefwefwfwff wef
           </p>
           <Link to="/createquestion">
-            {" "}
             <button
               type="button"
               class="btn btn-info"
@@ -68,33 +72,26 @@ export default function ViewQuestion() {
             <p style={{ color: "gray" }}>answer</p>
           </div>
           {/* // new text is coming  */}
-          <div
-            class="d-flex flex-column align-items-start"
-            style={{ marginLeft: "17px" }}
-          >
-            <p style={{ color: "gray" }}>
-              {" "}
-              ewfweqwfdwqfqwfqwfqwwqfwqfqwfwqfqwfqwfqwfqqwff wefc wcw
-            </p>
-            <p
-              style={{
-                backgroundColor: "#b3d9ff",
-                color: "#0080ff",
-                padding: "5px",
-                borderRadius: "2px",
-              }}
-            >
-              tag1
-            </p>
-            <button class="negative ui button">delete</button>
-          </div>
-          {/* // last  */}
-          <div class="d-flex flex-column mt-auto">
-            <div class="d-flex ">
-              <img src="https://secure.gravatar.com/avatar/619ccf7f233fad2d04e935bd?s=32&d=identicon" />
-              <div class="d-flex flex-column " style={{ marginLeft: "7px" }}>
-                <p style={{ color: "gray" }}>asked 22 minutes ago </p>
-                <p style={{ color: "#0080ff" }}>rtrtrt</p>
+
+          <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column align-items-start">
+              <p style={{ color: "gray" }}>
+                {" "}
+                question answer is posting wfewfwefweewwe
+              </p>
+
+              <button class="negative ui button" style={{ padding: "10px" }}>
+                delete
+              </button>
+            </div>
+            {/* // last  */}
+            <div class="d-flex flex-column mt-auto">
+              <div class="d-flex ">
+                <img src="https://secure.gravatar.com/avatar/619ccf7f233fad2d04e935bd?s=32&d=identicon" />
+                <div class="d-flex flex-column " style={{ marginLeft: "2px" }}>
+                  <p style={{ color: "gray" }}>asked 22 minutes ago </p>
+                  <p style={{ color: "#0080ff" }}>rtrtrt</p>
+                </div>
               </div>
             </div>
           </div>
@@ -119,11 +116,15 @@ export default function ViewQuestion() {
                 >
                   rtrt
                 </p>
-                <p style={{ color: "lightgray", marginLeft: "4px" }}>
+                <p style={{ color: "lightgray", marginLeft: "0.12rem" }}>
                   Nov 29 at 18:50{" "}
                 </p>
                 <button
-                  style={{ width: "85px", height: "28px", marginLeft: "5px" }}
+                  style={{
+                    width: "85px",
+                    height: "28px",
+                    marginLeft: "5px",
+                  }}
                   class="negative ui button"
                 >
                   delete
@@ -193,22 +194,21 @@ export default function ViewQuestion() {
 
         {/* // asnwer area  */}
         <div class="d-flex justify-content-between">
-          <div
-            class="d-flex flex-column align-items-start"
-            style={{ marginLeft: "17px" }}
-          >
+          <div class="d-flex flex-column align-items-start">
             <p style={{ color: "gray" }}>
               {" "}
               question answer is posting wfewfwefweewwe
             </p>
 
-            <button class="negative ui button">delete</button>
+            <button class="negative ui button" style={{ padding: "10px" }}>
+              delete
+            </button>
           </div>
           {/* // last  */}
           <div class="d-flex flex-column mt-auto">
             <div class="d-flex ">
               <img src="https://secure.gravatar.com/avatar/619ccf7f233fad2d04e935bd?s=32&d=identicon" />
-              <div class="d-flex flex-column " style={{ marginLeft: "7px" }}>
+              <div class="d-flex flex-column " style={{ marginLeft: "2px" }}>
                 <p style={{ color: "gray" }}>asked 22 minutes ago </p>
                 <p style={{ color: "#0080ff" }}>rtrtrt</p>
               </div>
@@ -238,7 +238,12 @@ export default function ViewQuestion() {
                   Nov 29 at 18:50{" "}
                 </p>
                 <button
-                  style={{ width: "85px", height: "28px", marginLeft: "5px" }}
+                  style={{
+                    width: "85px",
+                    height: "28px",
+                    marginLeft: "0.2rem",
+                    padding: "0.4rem",
+                  }}
                   class="negative ui button"
                 >
                   delete
@@ -315,9 +320,9 @@ export default function ViewQuestion() {
       </div>
       <div
         style={{
-          marginLeft: "20px",
-          marginTop: "40px",
-          width: "15vw",
+          marginLeft: "0.12rem",
+          marginTop: "1rem",
+          width: "10%",
         }}
       >
         <h3>Popular Tags</h3>
@@ -331,7 +336,7 @@ export default function ViewQuestion() {
             class="btn btn-info"
             style={{
               width: "90px",
-              height: "25px",
+              height: "28px",
               backgroundColor: "#b3d9ff",
               color: "#0080ff",
             }}
@@ -343,9 +348,10 @@ export default function ViewQuestion() {
             class="btn btn-info"
             style={{
               width: "70px",
-              height: "25px",
+              height: "28px",
               backgroundColor: "#b3d9ff",
               color: "#0080ff",
+              marginTop: "15px",
             }}
           >
             nodejs
@@ -355,7 +361,7 @@ export default function ViewQuestion() {
             class="btn btn-info"
             style={{
               width: "80px",
-              height: "25px",
+              height: "28px",
               backgroundColor: "#b3d9ff",
               color: "#0080ff",
               marginTop: "15px",
@@ -368,7 +374,7 @@ export default function ViewQuestion() {
             class="btn btn-info"
             style={{
               width: "80px",
-              height: "25px",
+              height: "28px",
               backgroundColor: "#b3d9ff",
               color: "#0080ff",
               marginTop: "15px",
@@ -381,7 +387,7 @@ export default function ViewQuestion() {
             class="btn btn-info"
             style={{
               width: "65px",
-              height: "25px",
+              height: "28px",
               backgroundColor: "#b3d9ff",
               color: "#0080ff",
               marginTop: "15px",

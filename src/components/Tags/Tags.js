@@ -13,7 +13,88 @@ export default function Tags() {
             others to find and answer your question.
           </p>
           <div class="ui input focus" style={{ marginTop: "20px" }}>
+            <i class="search icon" style={{ marginTop: "0.7rem" }}></i>
             <input type="text" placeholder="Filter Tag name ..." />
+          </div>
+          <br></br>
+          <br></br>
+          <br></br>
+          <div class="d-flex justify-content-between">
+            <div class="ui message">
+              <div class="header" style={{ color: "gray" }}>
+                1 question
+              </div>
+              <br></br>
+              <button
+                type="button"
+                class="btn btn-info"
+                style={{
+                  width: "100px",
+                  height: "28px",
+                  backgroundColor: "#b3d9ff",
+                  color: "#0080ff",
+                }}
+              >
+                javascript
+              </button>
+            </div>
+
+            <div class="ui message">
+              <div class="header" style={{ color: "gray" }}>
+                11 question
+              </div>
+              <br></br>
+              <button
+                type="button"
+                class="btn btn-info"
+                style={{
+                  width: "90px",
+                  height: "28px",
+                  backgroundColor: "#b3d9ff",
+                  color: "#0080ff",
+                }}
+              >
+                express
+              </button>
+            </div>
+
+            <div class="ui message">
+              <div class="header" style={{ color: "gray" }}>
+                19 question
+              </div>
+              <br></br>
+              <button
+                type="button"
+                class="btn btn-info"
+                style={{
+                  width: "90px",
+                  height: "28px",
+                  backgroundColor: "#b3d9ff",
+                  color: "#0080ff",
+                }}
+              >
+                react
+              </button>
+            </div>
+
+            <div class="ui message">
+              <div class="header" style={{ color: "gray" }}>
+                2 question
+              </div>
+              <br></br>
+              <button
+                type="button"
+                class="btn btn-info"
+                style={{
+                  width: "90px",
+                  height: "28px",
+                  backgroundColor: "#b3d9ff",
+                  color: "#0080ff",
+                }}
+              >
+                nodejs
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -30,10 +30,7 @@ function App() {
         <Route path="/question/:id">
           <ViewQuestion />
         </Route>
-        <Route path="/profile">
-          <Profile />
-        </Route>
-        <Route path="/profile">
+        <Route path="/profile/:username">
           <Profile />
         </Route>
       </Switch>

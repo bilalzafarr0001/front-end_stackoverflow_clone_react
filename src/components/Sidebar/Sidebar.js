@@ -7,25 +7,29 @@ export default function Sidebar(props) {
     <div>
       <ul
         class="nav flex-column "
-        style={{ marginLeft: "120px", paddingTop: "40px", cursor: "pointer" }}
+        style={{
+          marginLeft: "3.5rem",
+          paddingTop: "4rem",
+          cursor: "pointer",
+          width: "10%",
+        }}
       >
-        <li class="nav-item" style={{ marginTop: "10px", color: "#222" }}>
+        <li class="nav-item" style={{ marginTop: "2rem", color: "#222" }}>
           <Link to="/">
             <div
               class="d-flex justify-content-between"
               style={{
                 color: "black",
                 backgroundColor: props.name === "home" ? "lightgray" : null,
-                padding: props.name == "home" ? "10px" : null,
+                padding: props.name == "home" ? "0.4rem" : null,
                 borderRadius: props.name == "home" ? "12px" : null,
               }}
             >
-              <BiWorld style={{ margin: "3px" }} />
               <p>Stack Overflow</p>
             </div>
           </Link>
         </li>
-        <li class="nav-item" style={{ marginTop: "20px", color: "#222" }}>
+        <li class="nav-item" style={{ marginTop: "1rem", color: "#222" }}>
           {" "}
           <Link
             to="/tags"
@@ -39,7 +43,7 @@ export default function Sidebar(props) {
             Tags
           </Link>{" "}
         </li>
-        <li class="nav-item" style={{ marginTop: "20px" }}>
+        <li class="nav-item" style={{ marginTop: "1rem" }}>
           {" "}
           <Link
             to="/users"

@@ -6,7 +6,13 @@ export default function ListQuestions() {
   return (
     <div class="d-flex justify-content-start">
       <Sidebar name="home" />
-      <div style={{ marginLeft: "80px", marginTop: "40px", width: "55vw" }}>
+      <div
+        style={{
+          marginLeft: "8%",
+          marginTop: "1rem",
+          width: "55%",
+        }}
+      >
         <div class="d-flex justify-content-between">
           <h1>All Questions</h1>
           <Link to="/createquestion">
@@ -52,49 +58,49 @@ export default function ListQuestions() {
           {/* // new text is coming  */}
           <div
             class="d-flex flex-column align-items-start"
-            style={{ marginLeft: "17px" }}
+            style={{ marginLeft: "0.12rem" }}
           >
-            <Link to={`question/123`}>
-              {" "}
-              <p style={{ color: "#0080ff", fontSize: "16px" }}>
+            <p class="text-wrap">
+              <Link to={`question/123`}>
                 {" "}
-                ewfwefwefewfwewefwewwfwfweffwe wfwefwefwefwefwefwfwff wefc wcw
-              </p>
-            </Link>
-            <p style={{ color: "gray" }}>
-              {" "}
-              ewfweqwfdwqfqwfqwfqwwqfwqfqwfwqfqwfqwfqwfqqwff wefc wcw
+                ewf wef wefewf we wefw eww fwfwe ffwe wfw ef wefw e fwe fwef wfw
+                ff wefc wcw{" "}
+              </Link>
+            </p>
+
+            <p class="text-wrap">
+              ewf weqwf dw gg qfq wf qwf qww qf wq fqw fwqf qwf qw f qwfqq wff
+              wefc
             </p>
             <p
               style={{
                 backgroundColor: "#b3d9ff",
                 color: "#0080ff",
-                padding: "5px",
+                padding: "0.12rem",
                 borderRadius: "2px",
               }}
             >
               tag1
             </p>
-          </div>
-          {/* // last  */}
-          <div class="d-flex flex-column mt-auto">
             <div class="d-flex ">
               <img src="https://secure.gravatar.com/avatar/619ccf7f233fad2d04e935bd?s=32&d=identicon" />
-              <div class="d-flex flex-column " style={{ marginLeft: "7px" }}>
+              <div class="d-flex flex-column " style={{ marginLeft: "2px" }}>
                 <p style={{ color: "gray" }}>asked 22 minutes ago </p>
                 <p style={{ color: "#0080ff" }}>rtrtrt</p>
               </div>
             </div>
           </div>
+          {/* // last  */}
         </div>
         {/* <!-- end --> */}
         <div class="ui inverted divider"></div>
       </div>
       <div
         style={{
-          marginLeft: "20px",
-          marginTop: "40px",
-          width: "15vw",
+          marginLeft: "0.5rem",
+          marginRight: "0.5rem",
+          marginTop: "1rem",
+          width: "10%",
         }}
       >
         <h3>Popular Tags</h3>
@@ -108,7 +114,7 @@ export default function ListQuestions() {
             class="btn btn-info"
             style={{
               width: "90px",
-              height: "25px",
+              height: "28px",
               backgroundColor: "#b3d9ff",
               color: "#0080ff",
             }}
@@ -120,9 +126,10 @@ export default function ListQuestions() {
             class="btn btn-info"
             style={{
               width: "70px",
-              height: "25px",
+              height: "28px",
               backgroundColor: "#b3d9ff",
               color: "#0080ff",
+              marginTop: "15px",
             }}
           >
             nodejs
@@ -132,7 +139,7 @@ export default function ListQuestions() {
             class="btn btn-info"
             style={{
               width: "80px",
-              height: "25px",
+              height: "28px",
               backgroundColor: "#b3d9ff",
               color: "#0080ff",
               marginTop: "15px",
@@ -145,7 +152,7 @@ export default function ListQuestions() {
             class="btn btn-info"
             style={{
               width: "80px",
-              height: "25px",
+              height: "28px",
               backgroundColor: "#b3d9ff",
               color: "#0080ff",
               marginTop: "15px",
@@ -158,7 +165,7 @@ export default function ListQuestions() {
             class="btn btn-info"
             style={{
               width: "65px",
-              height: "25px",
+              height: "28px",
               backgroundColor: "#b3d9ff",
               color: "#0080ff",
               marginTop: "15px",
