@@ -43,15 +43,15 @@ export default function Sidebar(props) {
             Tags
           </Link>{" "}
         </li>
-        <li class="nav-item" style={{ marginTop: "1rem" }}>
+        <li class="nav-item" style={{ marginTop: "1rem", color: "#222" }}>
           {" "}
           <Link
             to="/users"
             style={{
               color: "black",
-              backgroundColor: props.name === "user" ? "lightgray" : null,
-              padding: props.name == "user" ? "10px" : null,
-              borderRadius: props.name == "user" ? "12px" : null,
+              backgroundColor: props.name === "tag" ? "lightgray" : null,
+              padding: props.name == "tag" ? "10px" : null,
+              borderRadius: props.name == "tag" ? "12px" : null,
             }}
           >
             Users

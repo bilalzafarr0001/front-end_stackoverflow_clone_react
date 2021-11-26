@@ -5,94 +5,96 @@ export default function Tags() {
     <>
       <div class="d-flex justify-content-start">
         <Sidebar name="tag" />
-        <div style={{ marginLeft: "100px", marginTop: "40px" }}>
-          <h1>Tags</h1>
-          <p>
-            A tag is a keyword or label that categorizes your question with
-            other, similar questions. Using the right tags makes it easier for
-            others to find and answer your question.
-          </p>
-          <div class="ui input focus" style={{ marginTop: "20px" }}>
-            <i class="search icon" style={{ marginTop: "0.7rem" }}></i>
-            <input type="text" placeholder="Filter Tag name ..." />
-          </div>
-          <br></br>
-          <br></br>
-          <br></br>
-          <div class="d-flex justify-content-between">
-            <div class="ui message">
-              <div class="header" style={{ color: "gray" }}>
-                1 question
-              </div>
-              <br></br>
+        <div
+          style={{
+            marginLeft: "8%",
+            marginTop: "1rem",
+            width: "55%",
+          }}
+        >
+          <div style={{ marginLeft: "2rem", marginTop: "1rem" }}>
+            <h1>Tags</h1>
+            <p>
+              A tag is a keyword or label that categorizes your question with
+              other, similar questions. Using the right tags makes it easier for
+              others to find and answer your question.
+            </p>
+            <div class="ui input focus" style={{ marginTop: "1rem" }}>
+              <i class="search icon" style={{ marginTop: "0.7rem" }}></i>
+              <input type="text" placeholder="Filter Tag name ..." />
+            </div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div class="d-flex justify-content-between flex-wrap">
               <button
                 type="button"
                 class="btn btn-info"
                 style={{
-                  width: "100px",
-                  height: "28px",
+                  width: "5.4rem",
+                  height: "3rem",
                   backgroundColor: "#b3d9ff",
                   color: "#0080ff",
+                  marginTop: "1rem",
                 }}
               >
                 javascript
               </button>
-            </div>
 
-            <div class="ui message">
-              <div class="header" style={{ color: "gray" }}>
-                11 question
-              </div>
-              <br></br>
               <button
                 type="button"
                 class="btn btn-info"
                 style={{
-                  width: "90px",
-                  height: "28px",
+                  width: "5.4rem",
+                  height: "3rem",
                   backgroundColor: "#b3d9ff",
                   color: "#0080ff",
+                  marginTop: "1rem",
                 }}
               >
-                express
+                javascript
               </button>
-            </div>
 
-            <div class="ui message">
-              <div class="header" style={{ color: "gray" }}>
-                19 question
-              </div>
-              <br></br>
               <button
                 type="button"
                 class="btn btn-info"
                 style={{
-                  width: "90px",
-                  height: "28px",
+                  width: "5.4rem",
+                  height: "3rem",
                   backgroundColor: "#b3d9ff",
                   color: "#0080ff",
+                  marginTop: "1rem",
                 }}
               >
-                react
+                javascript
               </button>
-            </div>
 
-            <div class="ui message">
-              <div class="header" style={{ color: "gray" }}>
-                2 question
-              </div>
-              <br></br>
               <button
                 type="button"
                 class="btn btn-info"
                 style={{
-                  width: "90px",
-                  height: "28px",
+                  width: "5.4rem",
+                  height: "3rem",
                   backgroundColor: "#b3d9ff",
                   color: "#0080ff",
+                  marginTop: "1rem",
                 }}
               >
-                nodejs
+                javascript
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-info"
+                style={{
+                  width: "5.4rem",
+                  height: "3rem",
+                  backgroundColor: "#b3d9ff",
+                  color: "#0080ff",
+                  marginTop: "1rem",
+                }}
+              >
+                javascript
               </button>
             </div>
           </div>

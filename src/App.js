@@ -6,6 +6,8 @@ import ListQuestions from "./components/ListQuestions/ListQuestions";
 import CreateQuestion from "./components/CreateQuestion/CreateQuestion";
 import ViewQuestion from "./components/ViewQuestion/ViewQuestion";
 import Profile from "./components/Profile/Profile";
+import Listtags from "./components/Listtags/Listtags";
+import Questionbyname from "./components/Questionbyname/Questionbyname";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -29,6 +31,12 @@ function App() {
         </Route>
         <Route path="/question/:id">
           <ViewQuestion />
+        </Route>
+        <Route path="/questions/:tags">
+          <Listtags />
+        </Route>
+        <Route path="/user/:username">
+          <Questionbyname />
         </Route>
         <Route path="/profile/:username">
           <Profile />

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../Sidebar/Sidebar";
-import { Link } from "react-router-dom";
+import { useHistory, useParams, Link } from "react-router-dom";
 import { client } from "../client";
+import Sidebar from "../Sidebar/Sidebar";
 
-export default function ListQuestions() {
+function Questionbyname() {
   const [questions, setQuestions] = useState(null);
-
+  const history = useHistory();
+  const { username } = useParams();
+  console.log("Username of params are ", username);
   useEffect(() => {
-    client(`/question`)
+    client(`/question/user/${username}`)
       .then((res) => {
-        console.log("res", res);
         setQuestions(res.questions);
-        console.log("Question in Home Component are ", questions);
+        console.log("Questions by USERNAME are  ", questions);
       })
       .catch((err) => {
         console.log(err);
@@ -80,7 +81,7 @@ export default function ListQuestions() {
                 style={{ marginLeft: "0.12rem" }}
               >
                 <p class="text-wrap">
-                  <Link to={`question/${question._id}`}>{question.title}</Link>
+                  <Link to={`/question/${question._id}`}>{question.title}</Link>
                 </p>
 
                 <p class="text-wrap">{question.text}</p>
@@ -200,3 +201,5 @@ export default function ListQuestions() {
     </div>
   );
 }
+
+export default Questionbyname;

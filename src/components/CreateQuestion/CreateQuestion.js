@@ -1,6 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import ReactTagInput from "@pathofdev/react-tag-input";
+import "@pathofdev/react-tag-input/build/index.css";
+import { client } from "../client";
+import { useHistory } from "react-router-dom";
 
 export default function CreateQuestion() {
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [tags, setTags] = useState([]);
+  const history = useHistory();
+
+  const submitForm = async () => {
+    console.log(title);
+    console.log(text);
+    console.log(tags);
+
+    if (title && text && tags) {
+      const values = {
+        title: title,
+        text: text,
+        tags: tags,
+      };
+      console.log("Values are", values);
+      try {
+        await client("/questions", {
+          values,
+        }).then((res) => {
+          console.log("User question posted  data is :", res);
+        });
+      } catch (err) {
+        console.log("error", err);
+      }
+      history.push(`/`);
+    } else {
+      console.log("Please fill all fields ");
+    }
+  };
+
   return (
     <div class="container" style={{ backgroundColor: "#DCDCDC" }}>
       <div
@@ -22,7 +58,7 @@ export default function CreateQuestion() {
             <label>
               Be specific and imagine you’re asking a question to another person
             </label>
-            <input type="text" />
+            <input type="text" onChange={(e) => setTitle(e.target.value)} />
           </div>
           <div class="field">
             <label>Body</label>
@@ -31,7 +67,10 @@ export default function CreateQuestion() {
               Include all the information someone would need to answer your
               question
             </label>
-            <textarea rows="4"></textarea>
+            <textarea
+              rows="4"
+              onChange={(e) => setText(e.target.value)}
+            ></textarea>
           </div>
           <div class="field">
             <label>Tags</label>
@@ -39,18 +78,23 @@ export default function CreateQuestion() {
             <label>
               Add up to 5 tags to describe what your question is about
             </label>
-            <input type="text" />
+            <ReactTagInput
+              tags={tags}
+              placeholder="Type tags and press enter..."
+              onChange={(newTags) => setTags(newTags)}
+            />
           </div>
         </div>
       </div>
       <button
-        type="button"
+        type="submit "
         class="btn btn-info"
         style={{
           margin: "30px",
           backgroundColor: "#0080ff",
           color: "#fff",
         }}
+        onClick={submitForm}
       >
         Review your Question
       </button>

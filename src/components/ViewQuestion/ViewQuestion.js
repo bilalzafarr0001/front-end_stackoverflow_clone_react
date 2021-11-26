@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../Sidebar/Sidebar";
-import { Link } from "react-router-dom";
+import { useHistory, useParams, Link } from "react-router-dom";
+import { client } from "../client";
 
 export default function ViewQuestion() {
+  const history = useHistory();
+  const { id } = useParams();
+  console.log("Question View ID is :", id);
+
   const [isInput, setIsInput] = useState(false);
   const [isInput1, setIsInput1] = useState(false);
+
+  const [question, setQuestion] = useState("");
 
   const [comment, setComment] = useState("");
   const [comment1, setComment1] = useState("");
 
   const [comarray, setCommentArray] = useState([]);
   const [comarray1, setCommentArray1] = useState([]);
+
+  useEffect(() => {
+    client(`/question/${id}`)
+      .then((res) => {
+        console.log(res);
+        setQuestion(res.question);
+        console.log("Question Detail Data is  :", question);
+      })
+      .catch((err) => console.log(err));
+  }, [id]);
 
   function submitMeetingForm() {
     console.log("submit form of question");
@@ -46,9 +63,7 @@ export default function ViewQuestion() {
         }}
       >
         <div class="d-flex justify-content-between">
-          <p class="text-wrap">
-            ewfwefwe fewfwewefwewwfwfweffwe wfwefwefwefwefwefwfwff wef
-          </p>
+          <p class="text-wrap ">{question.title}</p>
           <Link to="/createquestion">
             <button
               type="button"
@@ -70,15 +85,31 @@ export default function ViewQuestion() {
             <p style={{ color: "gray" }}>votes</p>
             <p style={{ color: "gray" }}>0</p>
             <p style={{ color: "gray" }}>answer</p>
+            <p style={{ color: "gray" }}>{question.views}views</p>
           </div>
           {/* // new text is coming  */}
 
-          <div class="d-flex justify-content-between">
+          <div
+            class="d-flex justify-content-between"
+            style={{ marginLeft: "1rem" }}
+          >
             <div class="d-flex flex-column align-items-start">
-              <p style={{ color: "gray" }}>
-                {" "}
-                question answer is posting wfewfwefweewwe
-              </p>
+              <p style={{ color: "gray" }}> {question.text}</p>
+              <div class="d-flex">
+                {question.tags?.map((tag) => (
+                  <p
+                    style={{
+                      backgroundColor: "#b3d9ff",
+                      color: "#0080ff",
+                      padding: "0.12rem",
+                      borderRadius: "2px",
+                      marginRight: "7px",
+                    }}
+                  >
+                    {tag}
+                  </p>
+                ))}
+              </div>
 
               <button class="negative ui button" style={{ padding: "10px" }}>
                 delete
