@@ -37,7 +37,6 @@ function Listtags() {
   return (
     <div class="d-flex justify-content-start">
       <Sidebar name="home" />
-      <Sidebar name="home" />
       <div
         style={{
           marginLeft: "8%",
