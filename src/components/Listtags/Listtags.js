@@ -5,6 +5,8 @@ import Sidebar from "../Sidebar/Sidebar";
 
 function Listtags() {
   const [questions, setQuestions] = useState(null);
+  const [listtags, setTags] = useState(null);
+
   const history = useHistory();
   const { tags } = useParams();
   console.log("Tags", tags);
@@ -12,8 +14,20 @@ function Listtags() {
   useEffect(() => {
     client(`/questions/${tags}`)
       .then((res) => {
-        setQuestions(res);
+        setQuestions(res.questions);
         console.log("Questions by Tags are  ", questions);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [tags]);
+
+  useEffect(() => {
+    client(`/tags/populertags`)
+      .then((res) => {
+        console.log("res", res.tags);
+        setTags(res.tags);
+        console.log("Tags  in View Question  Component are ", tags);
       })
       .catch((err) => {
         console.log(err);
@@ -87,7 +101,7 @@ function Listtags() {
 
                 <p class="text-wrap">{question.text}</p>
                 <div class="d-flex">
-                  {question.tags.map((tag) => (
+                  {question?.tags?.map((tag) => (
                     <p
                       style={{
                         backgroundColor: "#b3d9ff",
@@ -129,75 +143,30 @@ function Listtags() {
       >
         <h3>Popular Tags</h3>
 
-        <div
-          class="d-flex justify-content-between flex-wrap"
-          style={{ padding: "8px" }}
-        >
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "90px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-            }}
-          >
-            javascript
-          </button>{" "}
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "70px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            nodejs
-          </button>
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "80px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            nextjs
-          </button>{" "}
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "80px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            python
-          </button>
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "65px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            ruby
-          </button>
-        </div>
+        {listtags?.map((tag, i) => (
+          <>
+            <div
+              class="d-flex justify-content-between flex-wrap"
+              style={{ padding: "8px" }}
+            >
+              <Link to={`/questions/${tag._id}`}>
+                {" "}
+                <button
+                  type="button"
+                  class="btn btn-info"
+                  style={{
+                    width: "90px",
+                    height: "28px",
+                    backgroundColor: "#b3d9ff",
+                    color: "#0080ff",
+                  }}
+                >
+                  {tag._id} x {tag.count}
+                </button>
+              </Link>
+            </div>
+          </>
+        ))}
       </div>
     </div>
   );
