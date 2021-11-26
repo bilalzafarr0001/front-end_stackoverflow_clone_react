@@ -31,6 +31,8 @@ function Listtags() {
       })
       .catch((err) => {
         console.log(err);
+
+        console.log(err);
       });
   }, []);
 
