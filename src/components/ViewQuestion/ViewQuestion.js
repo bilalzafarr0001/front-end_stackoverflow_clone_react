@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import { useHistory, useParams, Link } from "react-router-dom";
-import { client } from "../client";
+import { client, clientDelete } from "../client";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ViewQuestion() {
   const history = useHistory();
   const { id } = useParams();
   console.log("Question View ID is :", id);
+  const [text, setText] = useState("");
+  const [tags, setTags] = useState(null);
 
   const [isInput, setIsInput] = useState(false);
   const [isInput1, setIsInput1] = useState(false);
 
   const [question, setQuestion] = useState("");
+  const [user, setUser] = useState({});
+  const [ID, setId] = useState(null);
 
   const [comment, setComment] = useState("");
   const [comment1, setComment1] = useState("");
@@ -20,14 +26,88 @@ export default function ViewQuestion() {
   const [comarray1, setCommentArray1] = useState([]);
 
   useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("userInfo")));
+
     client(`/question/${id}`)
       .then((res) => {
-        console.log(res);
+        console.log(res.question);
         setQuestion(res.question);
         console.log("Question Detail Data is  :", question);
       })
       .catch((err) => console.log(err));
   }, [id]);
+
+  useEffect(() => {
+    client(`/tags/populertags`)
+      .then((res) => {
+        console.log("res", res.tags);
+        setTags(res.tags);
+        console.log("Tags  in View Question  Component are ", tags);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const submitForm = async () => {
+    console.log(text);
+
+    if (text) {
+      const values = {
+        text: text,
+      };
+      console.log("Values are", values);
+      try {
+        await client(`/answer/${id}`, {
+          values,
+        }).then((res) => {
+          console.log("Answer posted in question id :", res);
+        });
+        window.location.reload();
+      } catch (err) {
+        console.log("error", err);
+      }
+    } else {
+      console.log("Please fill all fields ");
+    }
+  };
+
+  function handleDeleteQuestion() {
+    console.log("Handle Delete question function is calling ....");
+    clientDelete(`/question/${id}`)
+      .then((res) => {
+        console.log(res.question);
+        setQuestion(res.question);
+        console.log("Question Detail Data is  :", question);
+        toast.success("Question Successfully Removed!", {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => console.log(err));
+    history.push(`/`);
+  }
+
+  const handleDeleteAnswer = (ID) => {
+    console.log("Handle Delete answer function is calling ....");
+    console.log("Question ID :", id);
+    console.log("Answer ID :", ID);
+    clientDelete(`/answer/${id}/${ID}`)
+      .then((res) => {
+        console.log("Responce of Question returning from DB", res);
+        setQuestion(res);
+        console.log(
+          "Question Detail Data in delete answer function is   :",
+          question
+        );
+      })
+      .catch((err) => console.log(err));
+  };
 
   function submitMeetingForm() {
     console.log("submit form of question");
@@ -62,8 +142,19 @@ export default function ViewQuestion() {
           width: "55%",
         }}
       >
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <div class="d-flex justify-content-between">
-          <p class="text-wrap ">{question.title}</p>
+          <p class="text-wrap ">{question?.title}</p>
           <Link to="/createquestion">
             <button
               type="button"
@@ -85,7 +176,7 @@ export default function ViewQuestion() {
             <p style={{ color: "gray" }}>votes</p>
             <p style={{ color: "gray" }}>0</p>
             <p style={{ color: "gray" }}>answer</p>
-            <p style={{ color: "gray" }}>{question.views}views</p>
+            <p style={{ color: "gray" }}>{question?.views}views</p>
           </div>
           {/* // new text is coming  */}
 
@@ -94,9 +185,9 @@ export default function ViewQuestion() {
             style={{ marginLeft: "1rem" }}
           >
             <div class="d-flex flex-column align-items-start">
-              <p style={{ color: "gray" }}> {question.text}</p>
+              <p style={{ color: "gray" }}> {question?.text}</p>
               <div class="d-flex">
-                {question.tags?.map((tag) => (
+                {question?.tags?.map((tag) => (
                   <p
                     style={{
                       backgroundColor: "#b3d9ff",
@@ -111,9 +202,18 @@ export default function ViewQuestion() {
                 ))}
               </div>
 
-              <button class="negative ui button" style={{ padding: "10px" }}>
-                delete
-              </button>
+              {question?.author == user.id ? (
+                <>
+                  <br></br>
+                  <button
+                    class="negative ui button"
+                    style={{ padding: "10px" }}
+                    onClick={handleDeleteQuestion}
+                  >
+                    delete
+                  </button>
+                </>
+              ) : null}
             </div>
             {/* // last  */}
             <div class="d-flex flex-column mt-auto">
@@ -129,7 +229,7 @@ export default function ViewQuestion() {
         </div>
         <div class="ui inverted divider"></div>
 
-        {comarray.map((book, idx) => {
+        {/* {comarray.map((book, idx) => {
           return (
             <>
               <div class="d-flex">
@@ -164,7 +264,7 @@ export default function ViewQuestion() {
               <div class="ui inverted divider"></div>
             </>
           );
-        })}
+        })} */}
 
         {/* <!-- end --> */}
         <br></br>
@@ -224,30 +324,44 @@ export default function ViewQuestion() {
         </div>
 
         {/* // asnwer area  */}
-        <div class="d-flex justify-content-between">
-          <div class="d-flex flex-column align-items-start">
-            <p style={{ color: "gray" }}>
-              {" "}
-              question answer is posting wfewfwefweewwe
-            </p>
+        {question?.answers?.map((answer, i) => (
+          <>
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column align-items-start">
+                <p style={{ color: "gray" }}> {answer.text}</p>
 
-            <button class="negative ui button" style={{ padding: "10px" }}>
-              delete
-            </button>
-          </div>
-          {/* // last  */}
-          <div class="d-flex flex-column mt-auto">
-            <div class="d-flex ">
-              <img src="https://secure.gravatar.com/avatar/619ccf7f233fad2d04e935bd?s=32&d=identicon" />
-              <div class="d-flex flex-column " style={{ marginLeft: "2px" }}>
-                <p style={{ color: "gray" }}>asked 22 minutes ago </p>
-                <p style={{ color: "#0080ff" }}>rtrtrt</p>
+                {answer.author == user.id ? (
+                  <>
+                    <br></br>
+                    <button
+                      class="negative ui button"
+                      style={{ padding: "10px" }}
+                      onClick={() => handleDeleteAnswer(answer._id)}
+                    >
+                      delete
+                    </button>
+                  </>
+                ) : null}
+              </div>
+              {/* // last  */}
+              <div class="d-flex flex-column mt-auto">
+                <div class="d-flex ">
+                  <img src="https://secure.gravatar.com/avatar/619ccf7f233fad2d04e935bd?s=32&d=identicon" />
+                  <div
+                    class="d-flex flex-column "
+                    style={{ marginLeft: "2px" }}
+                  >
+                    <p style={{ color: "gray" }}>asked 22 minutes ago </p>
+                    <p style={{ color: "#0080ff" }}>rtrtrt</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="ui inverted divider"></div>
-        {comarray1.map((book, idx) => {
+            <div class="ui inverted divider"></div>
+          </>
+        ))}
+
+        {/* {comarray1.map((book, idx) => {
           return (
             <>
               <div class="d-flex">
@@ -283,7 +397,7 @@ export default function ViewQuestion() {
               <div class="ui inverted divider"></div>
             </>
           );
-        })}
+        })} */}
 
         <br></br>
         <br></br>
@@ -324,19 +438,20 @@ export default function ViewQuestion() {
         <h2>Your answer</h2>
         <div class="ui form">
           <div class="field">
-            <textarea></textarea>
+            <textarea onChange={(e) => setText(e.target.value)}></textarea>
           </div>
         </div>
 
         <br></br>
         <br></br>
         <button
-          type="button"
+          type="submit"
           class="btn btn-info"
           style={{
             backgroundColor: "#0080ff",
             color: "#fff",
           }}
+          onClick={submitForm}
         >
           Post Your Answer
         </button>
@@ -358,75 +473,30 @@ export default function ViewQuestion() {
       >
         <h3>Popular Tags</h3>
 
-        <div
-          class="d-flex justify-content-between flex-wrap"
-          style={{ padding: "8px" }}
-        >
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "90px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-            }}
-          >
-            javascript
-          </button>{" "}
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "70px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            nodejs
-          </button>
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "80px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            nextjs
-          </button>{" "}
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "80px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            python
-          </button>
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "65px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            ruby
-          </button>
-        </div>
+        {tags?.map((tag, i) => (
+          <>
+            <div
+              class="d-flex justify-content-between flex-wrap"
+              style={{ padding: "8px" }}
+            >
+              <Link to={`/questions/${tag._id}`}>
+                {" "}
+                <button
+                  type="button"
+                  class="btn btn-info"
+                  style={{
+                    width: "90px",
+                    height: "28px",
+                    backgroundColor: "#b3d9ff",
+                    color: "#0080ff",
+                  }}
+                >
+                  {tag._id} x {tag.count}
+                </button>
+              </Link>
+            </div>
+          </>
+        ))}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { client } from "../client";
 
 export default function ListQuestions() {
   const [questions, setQuestions] = useState(null);
+  const [tags, setTags] = useState(null);
 
   useEffect(() => {
     client(`/question`)
@@ -12,6 +13,18 @@ export default function ListQuestions() {
         console.log("res", res);
         setQuestions(res.questions);
         console.log("Question in Home Component are ", questions);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    client(`/tags/populertags`)
+      .then((res) => {
+        console.log("res", res.tags);
+        setTags(res.tags);
+        console.log("Tags  in Home Component are ", tags);
       })
       .catch((err) => {
         console.log(err);
@@ -31,7 +44,6 @@ export default function ListQuestions() {
         <div class="d-flex justify-content-between">
           <h1>All Questions</h1>
           <Link to="/createquestion">
-            {" "}
             <button
               type="button"
               class="btn btn-info"
@@ -64,7 +76,6 @@ export default function ListQuestions() {
         <div class="ui inverted divider"></div>
         {questions?.map((question, i) => (
           <>
-            {" "}
             {/* // new flex is coming  */}
             <div class="d-flex">
               <div class="d-flex flex-column align-items-start">
@@ -127,75 +138,30 @@ export default function ListQuestions() {
       >
         <h3>Popular Tags</h3>
 
-        <div
-          class="d-flex justify-content-between flex-wrap"
-          style={{ padding: "8px" }}
-        >
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "90px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-            }}
-          >
-            javascript
-          </button>{" "}
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "70px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            nodejs
-          </button>
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "80px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            nextjs
-          </button>{" "}
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "80px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            python
-          </button>
-          <button
-            type="button"
-            class="btn btn-info"
-            style={{
-              width: "65px",
-              height: "28px",
-              backgroundColor: "#b3d9ff",
-              color: "#0080ff",
-              marginTop: "15px",
-            }}
-          >
-            ruby
-          </button>
-        </div>
+        {tags?.map((tag, i) => (
+          <>
+            <div
+              class="d-flex justify-content-between flex-wrap"
+              style={{ padding: "8px" }}
+            >
+              <Link to={`/questions/${tag._id}`}>
+                {" "}
+                <button
+                  type="button"
+                  class="btn btn-info"
+                  style={{
+                    width: "90px",
+                    height: "28px",
+                    backgroundColor: "#b3d9ff",
+                    color: "#0080ff",
+                  }}
+                >
+                  {tag._id} x {tag.count}
+                </button>
+              </Link>
+            </div>
+          </>
+        ))}
       </div>
     </div>
   );
