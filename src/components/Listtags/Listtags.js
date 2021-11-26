@@ -31,13 +31,12 @@ function Listtags() {
       })
       .catch((err) => {
         console.log(err);
-
-        console.log(err);
       });
   }, []);
 
   return (
     <div class="d-flex justify-content-start">
+      <Sidebar name="home" />
       <Sidebar name="home" />
       <div
         style={{
