@@ -4,6 +4,7 @@ import { useHistory, useParams, Link } from "react-router-dom";
 import { client, clientDelete } from "../client";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Moment from "react-moment";
 
 export default function ViewQuestion() {
   const history = useHistory();
@@ -15,15 +16,12 @@ export default function ViewQuestion() {
   const [isInput, setIsInput] = useState(false);
   const [isInput1, setIsInput1] = useState(false);
 
+  const [commentQuestion, setCommentQuestion] = useState("");
+  const [commentQuestion1, setCommentQuestion1] = useState("");
+
   const [question, setQuestion] = useState("");
   const [user, setUser] = useState({});
   const [ID, setId] = useState(null);
-
-  const [comment, setComment] = useState("");
-  const [comment1, setComment1] = useState("");
-
-  const [comarray, setCommentArray] = useState([]);
-  const [comarray1, setCommentArray1] = useState([]);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userInfo")));
@@ -108,28 +106,55 @@ export default function ViewQuestion() {
     window.location.reload().catch((err) => console.log(err));
   };
 
-  function submitMeetingForm() {
-    console.log("submit form of question");
-    console.log("comment is", comment);
-    comarray.push(comment);
-    console.log("comarray is ", comarray);
-    if (!comment) {
-      console.log("comment must be atleast 6 characters !");
+  const submitMeetingForm = async () => {
+    if (commentQuestion) {
+      const values = {
+        comment: commentQuestion,
+      };
+      console.log("Values are", commentQuestion);
+
+      try {
+        await client(`/comment/${id}`, {
+          values,
+        }).then((res) => {
+          console.log("Answer posted in question section :", res);
+        });
+        window.location.reload().catch((err) => console.log(err));
+      } catch (err) {
+        console.log("error", err);
+      }
+
+      setCommentQuestion("");
+      setIsInput(false);
+    } else {
+      console.log("Please enter Some thing to write ....");
     }
-    setComment("");
-    setIsInput(false);
-  }
-  function submitMeetingForm1() {
-    console.log("submit form of answer");
-    console.log("comment1 is", comment1);
-    comarray1.push(comment1);
-    console.log("comarray is ", comarray1);
-    if (!comment1) {
-      console.log("comment must be atleast 6 characters !");
+  };
+  const submitMeetingForm1 = async (ID) => {
+    console.log("Answer ID fro adding a comment in answer", ID);
+    if (commentQuestion1) {
+      const values = {
+        comment: commentQuestion1,
+      };
+      console.log("Values are", commentQuestion1);
+
+      try {
+        await client(`/comment/${id}/${ID}`, {
+          values,
+        }).then((res) => {
+          console.log("Answer posted in answer section :", res);
+        });
+        window.location.reload().catch((err) => console.log(err));
+      } catch (err) {
+        console.log("error", err);
+      }
+
+      setCommentQuestion("");
+      setIsInput(false);
+    } else {
+      console.log("Please enter Some thing to write ....");
     }
-    setComment1("");
-    setIsInput1(false);
-  }
+  };
 
   return (
     <div class="container-fluid d-flex justify-content-start">
@@ -184,7 +209,10 @@ export default function ViewQuestion() {
             style={{ marginLeft: "1rem" }}
           >
             <div class="d-flex flex-column align-items-start">
-              <p style={{ color: "gray" }}> {question?.text}</p>
+              <p style={{ color: "gray", fontSize: "2rem" }}>
+                {" "}
+                {question?.text}
+              </p>
               <div class="d-flex">
                 {question?.tags?.map((tag) => (
                   <p
@@ -228,12 +256,12 @@ export default function ViewQuestion() {
         </div>
         <div class="ui inverted divider"></div>
 
-        {/* {comarray.map((book, idx) => {
+        {question?.comments?.map((comment, idx) => {
           return (
             <>
               <div class="d-flex">
-                <p book={book} key={idx}>
-                  {book}
+                <p comment={comment} key={idx}>
+                  {comment.body}
                 </p>
                 __
                 <p
@@ -244,10 +272,10 @@ export default function ViewQuestion() {
                     borderRadius: "4px",
                   }}
                 >
-                  rtrt
+                  {comment.author.username}
                 </p>
                 <p style={{ color: "lightgray", marginLeft: "0.12rem" }}>
-                  Nov 29 at 18:50{" "}
+                  <Moment format="YYYY/MM/DD">{comment.created}</Moment>
                 </p>
                 <button
                   style={{
@@ -263,7 +291,7 @@ export default function ViewQuestion() {
               <div class="ui inverted divider"></div>
             </>
           );
-        })} */}
+        })}
 
         {/* <!-- end --> */}
         <br></br>
@@ -281,7 +309,7 @@ export default function ViewQuestion() {
             <div class="field">
               <textarea
                 rows="4"
-                onChange={(e) => setComment(e.target.value)}
+                onChange={(e) => setCommentQuestion(e.target.value)}
               ></textarea>
               <br></br>
               <br></br>
@@ -325,9 +353,13 @@ export default function ViewQuestion() {
         {/* // asnwer area  */}
         {question?.answers?.map((answer, i) => (
           <>
+            <br></br>
             <div class="d-flex justify-content-between">
               <div class="d-flex flex-column align-items-start">
-                <p style={{ color: "gray" }}> {answer.text}</p>
+                <p style={{ color: "gray", fontSize: "2rem" }}>
+                  {" "}
+                  {answer.text}
+                </p>
 
                 {answer.author == user.id ? (
                   <>
@@ -341,6 +373,10 @@ export default function ViewQuestion() {
                     </button>
                   </>
                 ) : null}
+                <br></br>
+                <br></br>
+
+                <br></br>
               </div>
               {/* // last  */}
               <div class="d-flex flex-column mt-auto">
@@ -357,80 +393,71 @@ export default function ViewQuestion() {
               </div>
             </div>
             <div class="ui inverted divider"></div>
+            <div class="d-flex flex-column">
+              {answer?.comments?.map((comment, idx) => {
+                return (
+                  <>
+                    <div class="d-flex">
+                      <p comment={comment} key={idx}>
+                        {comment.body}
+                      </p>
+                      __
+                      <p style={{ color: "lightgray", marginLeft: "0.12rem" }}>
+                        <Moment format="YYYY/MM/DD">{comment.created}</Moment>
+                      </p>
+                      <button
+                        style={{
+                          width: "85px",
+                          height: "28px",
+                          marginLeft: "5px",
+                        }}
+                        class="negative ui button"
+                      >
+                        delete
+                      </button>
+                    </div>
+                    <div class="ui inverted divider"></div>
+                  </>
+                );
+              })}
+              <br></br>
+            </div>
+            {!isInput1 ? (
+              <button
+                class="ui primary basic button"
+                onClick={() => setIsInput1(true)}
+              >
+                add comment{" "}
+              </button>
+            ) : (
+              <div class="ui form">
+                <div class="field">
+                  <textarea
+                    rows="4"
+                    onChange={(e) => setCommentQuestion1(e.target.value)}
+                  ></textarea>
+                  <br></br>
+                  <br></br>
+                  <button
+                    class="btn btn-info"
+                    type="submit"
+                    style={{
+                      backgroundColor: "#0080ff",
+                      color: "#fff",
+                    }}
+                    onClick={() => submitMeetingForm1(answer._id)}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div class="ui inverted divider"></div>
+            <br></br>
           </>
         ))}
 
-        {/* {comarray1.map((book, idx) => {
-          return (
-            <>
-              <div class="d-flex">
-                <p book={book} key={idx}>
-                  {book}
-                </p>
-                __
-                <p
-                  style={{
-                    backgroundColor: "#b3d9ff",
-                    color: "#0080ff",
-                    padding: "4px",
-                    borderRadius: "4px",
-                  }}
-                >
-                  rtrt
-                </p>
-                <p style={{ color: "lightgray", marginLeft: "4px" }}>
-                  Nov 29 at 18:50{" "}
-                </p>
-                <button
-                  style={{
-                    width: "85px",
-                    height: "28px",
-                    marginLeft: "0.2rem",
-                    padding: "0.4rem",
-                  }}
-                  class="negative ui button"
-                >
-                  delete
-                </button>
-              </div>
-              <div class="ui inverted divider"></div>
-            </>
-          );
-        })} */}
-
-        <br></br>
-        <br></br>
-        <br></br>
-        {!isInput1 ? (
-          <button
-            class="ui primary basic button"
-            onClick={() => setIsInput1(true)}
-          >
-            add comment{" "}
-          </button>
-        ) : (
-          <div class="ui form">
-            <div class="field">
-              <textarea
-                rows="4"
-                onChange={(e) => setComment1(e.target.value)}
-              ></textarea>
-              <br></br>
-              <br></br>
-              <button
-                class="btn btn-info"
-                type="submit"
-                style={{
-                  backgroundColor: "#0080ff",
-                  color: "#fff",
-                }}
-                onClick={submitMeetingForm1}
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        )}
         <br></br>
         <br></br>
         <br></br>
