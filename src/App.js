@@ -8,6 +8,7 @@ import ViewQuestion from "./components/ViewQuestion/ViewQuestion";
 import Profile from "./components/Profile/Profile";
 import Listtags from "./components/Listtags/Listtags";
 import Questionbyname from "./components/Questionbyname/Questionbyname";
+import TagQuestion from "./components/TagQuestion/TagQuestion";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -40,6 +41,9 @@ function App() {
         </Route>
         <Route path="/profile/:username">
           <Profile />
+        </Route>
+        <Route path="/tag/:tag">
+          <TagQuestion />
         </Route>
       </Switch>
     </div>

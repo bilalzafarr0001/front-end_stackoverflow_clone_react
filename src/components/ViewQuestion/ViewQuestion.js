@@ -97,16 +97,15 @@ export default function ViewQuestion() {
     console.log("Handle Delete answer function is calling ....");
     console.log("Question ID :", id);
     console.log("Answer ID :", ID);
-    clientDelete(`/answer/${id}/${ID}`)
-      .then((res) => {
-        console.log("Responce of Question returning from DB", res);
-        setQuestion(res);
-        console.log(
-          "Question Detail Data in delete answer function is   :",
-          question
-        );
-      })
-      .catch((err) => console.log(err));
+    clientDelete(`/answer/${id}/${ID}`).then((res) => {
+      console.log("Responce of Question returning from DB", res);
+      setQuestion(res);
+      console.log(
+        "Question Detail Data in delete answer function is   :",
+        question
+      );
+    });
+    window.location.reload().catch((err) => console.log(err));
   };
 
   function submitMeetingForm() {
