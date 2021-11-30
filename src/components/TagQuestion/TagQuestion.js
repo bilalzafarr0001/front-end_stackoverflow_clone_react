@@ -94,7 +94,7 @@ function TagQuestion() {
                 style={{ marginLeft: "0.12rem" }}
               >
                 <p class="text-wrap">
-                  <Link to={`question/${question._id}`}>{question.title}</Link>
+                  <Link to={`/question/${question._id}`}>{question.title}</Link>
                 </p>
 
                 <p class="text-wrap">{question.text}</p>

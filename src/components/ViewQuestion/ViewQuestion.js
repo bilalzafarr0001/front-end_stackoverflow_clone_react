@@ -45,11 +45,9 @@ export default function ViewQuestion() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [id]);
 
   const submitForm = async () => {
-    console.log(text);
-
     if (text) {
       const values = {
         text: text,
@@ -61,10 +59,10 @@ export default function ViewQuestion() {
         }).then((res) => {
           console.log("Answer posted in question id :", res);
         });
-        window.location.reload();
       } catch (err) {
         console.log("error", err);
       }
+      setText("");
     } else {
       console.log("Please fill all fields ");
     }
@@ -119,7 +117,6 @@ export default function ViewQuestion() {
         }).then((res) => {
           console.log("Answer posted in question section :", res);
         });
-        window.location.reload().catch((err) => console.log(err));
       } catch (err) {
         console.log("error", err);
       }
@@ -144,7 +141,6 @@ export default function ViewQuestion() {
         }).then((res) => {
           console.log("Answer posted in answer section :", res);
         });
-        window.location.reload().catch((err) => console.log(err));
       } catch (err) {
         console.log("error", err);
       }
@@ -154,6 +150,38 @@ export default function ViewQuestion() {
     } else {
       console.log("Please enter Some thing to write ....");
     }
+  };
+
+  const handleDeleteCommentQuestion = (ID) => {
+    console.log(
+      "Handle Delete comment in Question Part function is calling ...."
+    );
+    console.log("Question ID :", id);
+    console.log("Comment ID :", ID);
+    clientDelete(`/comment/${id}/${ID}`).then((res) => {
+      console.log("Responce of Question returning from DB", res);
+      setQuestion(res);
+      console.log(
+        "Question Detail Data in delete comment(question) function is   :",
+        question
+      );
+    });
+  };
+
+  const handleDeleteCommentAnswer = (answerID, ID) => {
+    console.log(
+      "Handle Delete comment in Answer Part function is calling ...."
+    );
+    console.log("Question ID :", id);
+    console.log("Comment ID :", ID);
+    clientDelete(`/comment/${id}/${answerID}/${ID}`).then((res) => {
+      console.log("Responce of Question returning from DB", res);
+      setQuestion(res);
+      console.log(
+        "Question Detail Data in delete comment(answer) function is   :",
+        question
+      );
+    });
   };
 
   return (
@@ -277,16 +305,22 @@ export default function ViewQuestion() {
                 <p style={{ color: "lightgray", marginLeft: "0.12rem" }}>
                   <Moment format="YYYY/MM/DD">{comment.created}</Moment>
                 </p>
-                <button
-                  style={{
-                    width: "85px",
-                    height: "28px",
-                    marginLeft: "5px",
-                  }}
-                  class="negative ui button"
-                >
-                  delete
-                </button>
+                {comment.author._id == user.id ? (
+                  <>
+                    <br></br>
+                    <button
+                      style={{
+                        width: "85px",
+                        height: "28px",
+                        marginLeft: "5px",
+                      }}
+                      class="negative ui button"
+                      onClick={() => handleDeleteCommentQuestion(comment._id)}
+                    >
+                      delete
+                    </button>
+                  </>
+                ) : null}
               </div>
               <div class="ui inverted divider"></div>
             </>
@@ -402,19 +436,37 @@ export default function ViewQuestion() {
                         {comment.body}
                       </p>
                       __
+                      <p
+                        style={{
+                          backgroundColor: "#b3d9ff",
+                          color: "#0080ff",
+                          padding: "4px",
+                          borderRadius: "4px",
+                        }}
+                      >
+                        {comment.author.username}
+                      </p>
                       <p style={{ color: "lightgray", marginLeft: "0.12rem" }}>
                         <Moment format="YYYY/MM/DD">{comment.created}</Moment>
                       </p>
-                      <button
-                        style={{
-                          width: "85px",
-                          height: "28px",
-                          marginLeft: "5px",
-                        }}
-                        class="negative ui button"
-                      >
-                        delete
-                      </button>
+                      {comment.author._id == user.id ? (
+                        <>
+                          <br></br>
+                          <button
+                            style={{
+                              width: "85px",
+                              height: "28px",
+                              marginLeft: "5px",
+                            }}
+                            class="negative ui button"
+                            onClick={() =>
+                              handleDeleteCommentAnswer(answer._id, comment._id)
+                            }
+                          >
+                            delete
+                          </button>
+                        </>
+                      ) : null}
                     </div>
                     <div class="ui inverted divider"></div>
                   </>
@@ -445,7 +497,10 @@ export default function ViewQuestion() {
                       backgroundColor: "#0080ff",
                       color: "#fff",
                     }}
-                    onClick={() => submitMeetingForm1(answer._id)}
+                    onClick={() => {
+                      setIsInput1(false);
+                      submitMeetingForm1(answer._id);
+                    }}
                   >
                     Submit
                   </button>
@@ -505,7 +560,7 @@ export default function ViewQuestion() {
               class="d-flex justify-content-between flex-wrap"
               style={{ padding: "8px" }}
             >
-              <Link to={`/questions/${tag._id}`}>
+              <Link to={`tag/questions/${tag._id}`}>
                 {" "}
                 <button
                   type="button"
