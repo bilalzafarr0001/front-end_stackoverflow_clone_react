@@ -5,6 +5,8 @@ import { client, clientDelete } from "../client";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Moment from "react-moment";
+import { FaCaretUp } from "react-icons/fa";
+import { FaCaretDown } from "react-icons/fa";
 
 export default function ViewQuestion() {
   const history = useHistory();
@@ -67,6 +69,24 @@ export default function ViewQuestion() {
       console.log("Please fill all fields ");
     }
   };
+  function handleUpVote() {
+    client(`/votes/upvote/${id}`)
+      .then((res) => {
+        console.log(res.question);
+        setQuestion(res.question);
+        console.log("Question Detail Data is  :", question);
+      })
+      .catch((err) => console.log(err));
+  }
+  function handleDownVote() {
+    client(`/votes/downvote/${id}`)
+      .then((res) => {
+        console.log(res.question);
+        setQuestion(res.question);
+        console.log("Question Detail Data is  :", question);
+      })
+      .catch((err) => console.log(err));
+  }
 
   function handleDeleteQuestion() {
     console.log("Handle Delete question function is calling ....");
@@ -224,10 +244,19 @@ export default function ViewQuestion() {
         {/* // new flex is coming  */}
         <div class="d-flex">
           <div class="d-flex flex-column align-items-start">
-            <p style={{ color: "gray" }}>1</p>
-            <p style={{ color: "gray" }}>votes</p>
-            <p style={{ color: "gray" }}>0</p>
-            <p style={{ color: "gray" }}>answer</p>
+            <FaCaretUp size={30} onClick={handleUpVote} />
+            <p
+              style={{
+                color: "gray",
+                paddingLeft: "10px",
+                paddingTop: "18px",
+                fontSize: "17px",
+              }}
+            >
+              {question?.score}
+            </p>
+            <FaCaretDown size={30} onClick={handleDownVote} />
+
             <p style={{ color: "gray" }}>{question?.views}views</p>
           </div>
           {/* // new text is coming  */}

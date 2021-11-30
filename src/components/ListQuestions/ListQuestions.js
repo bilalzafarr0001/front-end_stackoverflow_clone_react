@@ -10,7 +10,7 @@ export default function ListQuestions() {
   useEffect(() => {
     client(`/question`)
       .then((res) => {
-        console.log("res", res);
+        console.log("res", res.questions);
         setQuestions(res.questions);
         console.log("Question in Home Component are ", questions);
       })
@@ -79,10 +79,18 @@ export default function ListQuestions() {
             {/* // new flex is coming  */}
             <div class="d-flex">
               <div class="d-flex flex-column align-items-start">
-                <p style={{ color: "gray" }}>1</p>
+                <p style={{ color: "gray", fontWeight: "bold" }}>
+                  {question?.score}
+                </p>
                 <p style={{ color: "gray" }}>votes</p>
-                <p style={{ color: "gray" }}>0</p>
+                <p style={{ color: "gray", fontWeight: "bold" }}>
+                  {question?.answers?.length}
+                </p>
                 <p style={{ color: "gray" }}>answer</p>
+                <p style={{ color: "gray", fontWeight: "bold" }}>
+                  {question?.views}
+                </p>
+                <p style={{ color: "gray" }}>Views</p>
               </div>
               {/* // new text is coming  */}
 
